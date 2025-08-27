@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useAuth } from '@/hooks/useAuth';
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, MapPin, Bell, User } from "lucide-react";
+import NotificationCenter from "@/components/NotificationCenter";
 
 const Header = () => {
+  const { user, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -32,14 +36,24 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button variant="ghost" size="sm">
-              <Bell className="w-4 h-4 mr-2" />
-              Notifications
-            </Button>
-            <Button variant="civic" size="sm">
-              <User className="w-4 h-4 mr-2" />
-              Sign In
-            </Button>
+            {user ? (
+              <>
+                <NotificationCenter />
+                <Link to="/dashboard">
+                  <Button variant="outline" size="sm">Dashboard</Button>
+                </Link>
+                <Button variant="ghost" size="sm" onClick={signOut}>
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Link to="/auth">
+                <Button variant="civic" size="sm">
+                  <User className="w-4 h-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

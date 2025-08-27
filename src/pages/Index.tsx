@@ -1,14 +1,23 @@
 import { useState } from "react";
+import { useAuth } from '@/hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import IssueCategories from "@/components/IssueCategories";
 import MapSection from "@/components/MapSection";
+import IssueReportForm from "@/components/IssueReportForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Users, Clock, CheckCircle } from "lucide-react";
 
 const Index = () => {
+  const { user, loading } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+  // Redirect authenticated users to dashboard
+  if (user && !loading) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-background">

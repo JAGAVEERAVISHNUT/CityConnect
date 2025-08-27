@@ -14,16 +14,239 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      issue_updates: {
+        Row: {
+          created_at: string
+          id: string
+          internal_notes: string | null
+          issue_id: string
+          new_status: Database["public"]["Enums"]["issue_status"]
+          notes: string | null
+          old_status: Database["public"]["Enums"]["issue_status"] | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          internal_notes?: string | null
+          issue_id: string
+          new_status: Database["public"]["Enums"]["issue_status"]
+          notes?: string | null
+          old_status?: Database["public"]["Enums"]["issue_status"] | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          internal_notes?: string | null
+          issue_id?: string
+          new_status?: Database["public"]["Enums"]["issue_status"]
+          notes?: string | null
+          old_status?: Database["public"]["Enums"]["issue_status"] | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_updates_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      issues: {
+        Row: {
+          address: string | null
+          assigned_department: string | null
+          assigned_to: string | null
+          category: Database["public"]["Enums"]["issue_category"]
+          created_at: string
+          description: string | null
+          id: string
+          latitude: number | null
+          longitude: number | null
+          photos: string[] | null
+          priority: number | null
+          resolved_at: string | null
+          status: Database["public"]["Enums"]["issue_status"]
+          title: string
+          updated_at: string
+          user_id: string
+          videos: string[] | null
+        }
+        Insert: {
+          address?: string | null
+          assigned_department?: string | null
+          assigned_to?: string | null
+          category: Database["public"]["Enums"]["issue_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          photos?: string[] | null
+          priority?: number | null
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["issue_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+          videos?: string[] | null
+        }
+        Update: {
+          address?: string | null
+          assigned_department?: string | null
+          assigned_to?: string | null
+          category?: Database["public"]["Enums"]["issue_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          photos?: string[] | null
+          priority?: number | null
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["issue_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+          videos?: string[] | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          issue_id: string | null
+          message: string
+          read: boolean | null
+          title: string
+          type: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          issue_id?: string | null
+          message: string
+          read?: boolean | null
+          title: string
+          type?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          issue_id?: string | null
+          message?: string
+          read?: boolean | null
+          title?: string
+          type?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          department: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          department?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          department?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "citizen" | "staff" | "admin" | "field_worker"
+      issue_category:
+        | "pothole"
+        | "water_leak"
+        | "broken_streetlight"
+        | "graffiti"
+        | "illegal_dumping"
+        | "traffic_signal"
+        | "noise_complaint"
+        | "tree_maintenance"
+      issue_status:
+        | "submitted"
+        | "acknowledged"
+        | "assigned"
+        | "in_progress"
+        | "on_hold"
+        | "resolved"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +373,26 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["citizen", "staff", "admin", "field_worker"],
+      issue_category: [
+        "pothole",
+        "water_leak",
+        "broken_streetlight",
+        "graffiti",
+        "illegal_dumping",
+        "traffic_signal",
+        "noise_complaint",
+        "tree_maintenance",
+      ],
+      issue_status: [
+        "submitted",
+        "acknowledged",
+        "assigned",
+        "in_progress",
+        "on_hold",
+        "resolved",
+      ],
+    },
   },
 } as const

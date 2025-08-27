@@ -52,6 +52,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				civic: {
+					blue: 'hsl(var(--civic-blue))',
+					green: 'hsl(var(--civic-green))',
+					teal: 'hsl(var(--civic-teal))',
+					navy: 'hsl(var(--civic-navy))',
+					light: 'hsl(var(--civic-light))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,6 +69,17 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-secondary': 'var(--gradient-secondary)',
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-card': 'var(--gradient-card)'
+			},
+			boxShadow: {
+				'civic': 'var(--shadow-civic)',
+				'card-civic': 'var(--shadow-card)',
+				'button-civic': 'var(--shadow-button)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

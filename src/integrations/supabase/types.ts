@@ -53,6 +53,13 @@ export type Database = {
             referencedRelation: "issues"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "issue_updates_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "public_issues"
+            referencedColumns: ["id"]
+          },
         ]
       }
       issues: {
@@ -154,6 +161,13 @@ export type Database = {
             referencedRelation: "issues"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "notifications_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "public_issues"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -218,7 +232,36 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_issues: {
+        Row: {
+          category: Database["public"]["Enums"]["issue_category"] | null
+          created_at: string | null
+          description: string | null
+          id: string | null
+          status: Database["public"]["Enums"]["issue_status"] | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["issue_category"] | null
+          created_at?: string | null
+          description?: never
+          id?: string | null
+          status?: Database["public"]["Enums"]["issue_status"] | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["issue_category"] | null
+          created_at?: string | null
+          description?: never
+          id?: string | null
+          status?: Database["public"]["Enums"]["issue_status"] | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {

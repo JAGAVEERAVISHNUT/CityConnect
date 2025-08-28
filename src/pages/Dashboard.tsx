@@ -1,5 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +24,7 @@ interface UserRole {
 }
 
 export default function Dashboard() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [stats, setStats] = useState<DashboardStats>({
     totalIssues: 0,
@@ -95,7 +96,12 @@ export default function Dashboard() {
 
   const isStaff = userRole?.role && ['staff', 'admin', 'field_worker'].includes(userRole.role);
 
-  if (loading) {
+  // Redirect to auth if not authenticated
+  if (!authLoading && !user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-civic/5 flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />

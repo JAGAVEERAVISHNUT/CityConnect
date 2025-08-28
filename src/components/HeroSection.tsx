@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Camera, MessageSquare } from "lucide-react";
+import { MapPin, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
@@ -14,7 +14,7 @@ const HeroSection = () => {
       <div className="container mx-auto text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Your Community,
+            <span>Your Community, </span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-teal-200">
               Your Voice
             </span>

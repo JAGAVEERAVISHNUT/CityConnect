@@ -4,12 +4,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Loader2, Camera, MapPin, Plus } from 'lucide-react';
+import { Loader2, MapPin, Plus } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const ISSUE_CATEGORIES = [
@@ -23,7 +22,7 @@ const ISSUE_CATEGORIES = [
   { value: 'tree_maintenance', label: 'Tree Maintenance' },
 ];
 
-export default function IssueReportForm({ onIssueSubmitted }: { onIssueSubmitted?: () => void }) {
+export default function IssueReportForm({ onIssueSubmitted }: { readonly onIssueSubmitted?: () => void }) {
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -107,15 +106,23 @@ export default function IssueReportForm({ onIssueSubmitted }: { onIssueSubmitted
       // First create the issue
       const { data: issue, error: issueError } = await supabase
         .from('issues')
-        .insert({
+        .insert([{
           user_id: user.id,
           title,
           description,
-          category: category as any,
+          category: category as
+            | "pothole"
+            | "water_leak"
+            | "broken_streetlight"
+            | "graffiti"
+            | "illegal_dumping"
+            | "traffic_signal"
+            | "noise_complaint"
+            | "tree_maintenance",
           latitude: location?.lat ? Number(location.lat) : null,
           longitude: location?.lng ? Number(location.lng) : null,
           address: address || null,
-        })
+        }])
         .select()
         .single();
 
@@ -130,10 +137,10 @@ export default function IssueReportForm({ onIssueSubmitted }: { onIssueSubmitted
         const videoFiles = selectedFiles.filter(f => f.type.startsWith('video/'));
 
         if (photoFiles.length > 0) {
-          uploadedPhotos = (await uploadFiles(photoFiles, issue.id)) as string[];
+          uploadedPhotos = await uploadFiles(photoFiles, issue.id);
         }
         if (videoFiles.length > 0) {
-          uploadedVideos = (await uploadFiles(videoFiles, issue.id)) as string[];
+          uploadedVideos = await uploadFiles(videoFiles, issue.id);
         }
 
         // Update issue with file URLs
@@ -160,11 +167,15 @@ export default function IssueReportForm({ onIssueSubmitted }: { onIssueSubmitted
       setLocation(null);
       setAddress('');
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error submitting issue:', error);
+      let errorMessage = "Failed to submit issue. Please try again.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       toast({
         title: "Submission Failed",
-        description: error.message || "Failed to submit issue. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

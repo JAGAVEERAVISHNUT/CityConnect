@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, Camera, MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -25,14 +26,18 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button variant="hero" size="lg" className="min-w-[200px]">
-              <Camera className="w-5 h-5 mr-2" />
-              Report an Issue
-            </Button>
-            <Button variant="secondary" size="lg" className="min-w-[200px]">
-              <MapPin className="w-5 h-5 mr-2" />
-              View Community Map
-            </Button>
+            <Link to="/report-issue">
+              <Button variant="hero" size="lg" className="min-w-[200px]">
+                <Camera className="w-5 h-5 mr-2" />
+                Report an Issue
+              </Button>
+            </Link>
+            <Link to="/community-map">
+              <Button variant="secondary" size="lg" className="min-w-[200px]">
+                <MapPin className="w-5 h-5 mr-2" />
+                View Community Map
+              </Button>
+            </Link>
           </div>
 
           {/* Stats */}

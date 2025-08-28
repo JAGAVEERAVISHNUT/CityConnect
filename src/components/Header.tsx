@@ -23,15 +23,15 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/report-issue" className="text-muted-foreground hover:text-foreground transition-colors">
               Report Issue
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/community-map" className="text-muted-foreground hover:text-foreground transition-colors">
               View Map
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/my-reports" className="text-muted-foreground hover:text-foreground transition-colors">
               My Reports
-            </a>
+            </Link>
           </nav>
 
           {/* Desktop Actions */}
@@ -71,15 +71,15 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-border pt-4">
             <nav className="flex flex-col space-y-3">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/report-issue" className="text-muted-foreground hover:text-foreground transition-colors">
                 Report Issue
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/community-map" className="text-muted-foreground hover:text-foreground transition-colors">
                 View Map
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/my-reports" className="text-muted-foreground hover:text-foreground transition-colors">
                 My Reports
-              </a>
+              </Link>
               <div className="flex flex-col space-y-2 pt-3 border-t border-border">
                 <Button variant="ghost" size="sm" className="justify-start">
                   <Bell className="w-4 h-4 mr-2" />

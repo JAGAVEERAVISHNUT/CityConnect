@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import IssueCategories from "@/components/IssueCategories";
@@ -104,10 +104,12 @@ const Index = () => {
 
           {selectedCategory && (
             <div className="text-center mt-8">
-              <Button variant="civic" size="lg">
-                <ArrowRight className="w-5 h-5 mr-2" />
-                Report {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Issue
-              </Button>
+              <Link to="/report-issue">
+                <Button variant="civic" size="lg">
+                  <ArrowRight className="w-5 h-5 mr-2" />
+                  Report {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Issue
+                </Button>
+              </Link>
             </div>
           )}
         </div>
@@ -126,12 +128,16 @@ const Index = () => {
             to improve their communities.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg">
-              Get Started Today
-            </Button>
-            <Button variant="secondary" size="lg">
-              Learn More
-            </Button>
+            <Link to="/auth">
+              <Button variant="hero" size="lg">
+                Get Started Today
+              </Button>
+            </Link>
+            <Link to="/community-map">
+              <Button variant="secondary" size="lg">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

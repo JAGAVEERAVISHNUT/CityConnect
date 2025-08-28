@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Eye, Filter, Layers } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const MapSection = () => {
   return (
@@ -36,10 +37,12 @@ const MapSection = () => {
                     <p className="text-muted-foreground mb-4">
                       Real-time visualization of community issues
                     </p>
-                    <Button variant="civic">
-                      <Eye className="w-4 h-4 mr-2" />
-                      View Full Map
-                    </Button>
+                    <Link to="/community-map">
+                      <Button variant="civic">
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Full Map
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </CardContent>

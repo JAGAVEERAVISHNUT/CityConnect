@@ -283,6 +283,7 @@ const ChartLegendContent = React.forwardRef<
       >
         {payload.map((item) => {
           const key = `${nameKey || item.dataKey || "value"}`
+          const { config } = useChart()
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
           return (

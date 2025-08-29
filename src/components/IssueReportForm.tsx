@@ -103,6 +103,21 @@ export default function IssueReportForm({ onIssueSubmitted }: { readonly onIssue
       const description = formData.get('description') as string;
       const category = formData.get('category') as string;
 
+      // Get AI-powered priority classification
+      let priority = 2; // Default to Medium
+      try {
+        const { data: priorityData } = await supabase.functions.invoke('classify-issue-priority', {
+          body: { title, description, category }
+        });
+        
+        if (priorityData?.priority) {
+          priority = priorityData.priority;
+          console.log('AI classified priority:', priorityData);
+        }
+      } catch (priorityError) {
+        console.warn('Priority classification failed, using default:', priorityError);
+      }
+
       // First create the issue
       const { data: issue, error: issueError } = await supabase
         .from('issues')
@@ -119,6 +134,7 @@ export default function IssueReportForm({ onIssueSubmitted }: { readonly onIssue
             | "traffic_signal"
             | "noise_complaint"
             | "tree_maintenance",
+          priority,
           latitude: location?.lat ? Number(location.lat) : null,
           longitude: location?.lng ? Number(location.lng) : null,
           address: address || null,

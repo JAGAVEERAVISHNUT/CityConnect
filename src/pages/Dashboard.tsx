@@ -1,13 +1,13 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Settings, Users, AlertTriangle, CheckCircle, Clock, TrendingUp } from 'lucide-react';
+import { Loader2, Settings, Users, AlertTriangle, CheckCircle, Clock, TrendingUp, ArrowLeft } from 'lucide-react';
 import IssuesList from '@/components/IssuesList';
 import NotificationCenter from '@/components/NotificationCenter';
 
@@ -113,6 +113,12 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-civic/5">
       <div className="border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
+          <Link to="/" className="inline-block mb-4">
+            <Button variant="ghost">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-foreground">

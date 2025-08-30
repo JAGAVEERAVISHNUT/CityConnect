@@ -14,24 +14,29 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <MapPin className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-foreground">CityConnect</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
+            <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
+              Home
+            </Link>
             <Link to="/report-issue" className="text-muted-foreground hover:text-foreground transition-colors">
               Report Issue
             </Link>
             <Link to="/community-map" className="text-muted-foreground hover:text-foreground transition-colors">
               View Map
             </Link>
-            <Link to="/my-reports" className="text-muted-foreground hover:text-foreground transition-colors">
-              My Reports
-            </Link>
+            {user && (
+              <Link to="/my-reports" className="text-muted-foreground hover:text-foreground transition-colors">
+                My Reports
+              </Link>
+            )}
           </nav>
 
           {/* Desktop Actions */}
@@ -71,24 +76,41 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-border pt-4">
             <nav className="flex flex-col space-y-3">
+              <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
+                Home
+              </Link>
               <Link to="/report-issue" className="text-muted-foreground hover:text-foreground transition-colors">
                 Report Issue
               </Link>
               <Link to="/community-map" className="text-muted-foreground hover:text-foreground transition-colors">
                 View Map
               </Link>
-              <Link to="/my-reports" className="text-muted-foreground hover:text-foreground transition-colors">
-                My Reports
-              </Link>
+              {user && (
+                <Link to="/my-reports" className="text-muted-foreground hover:text-foreground transition-colors">
+                  My Reports
+                </Link>
+              )}
               <div className="flex flex-col space-y-2 pt-3 border-t border-border">
-                <Button variant="ghost" size="sm" className="justify-start">
-                  <Bell className="w-4 h-4 mr-2" />
-                  Notifications
-                </Button>
-                <Button variant="civic" size="sm" className="justify-start">
-                  <User className="w-4 h-4 mr-2" />
-                  Sign In
-                </Button>
+                {user ? (
+                  <>
+                    <NotificationCenter />
+                    <Link to="/dashboard">
+                      <Button variant="outline" size="sm" className="w-full justify-start">
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button variant="ghost" size="sm" className="justify-start" onClick={signOut}>
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <Link to="/auth">
+                    <Button variant="civic" size="sm" className="w-full justify-start">
+                      <User className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
               </div>
             </nav>
           </div>

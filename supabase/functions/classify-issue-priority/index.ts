@@ -48,7 +48,7 @@ Respond with only: HIGH, MEDIUM, or LOW`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-5-nano-2025-08-07',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: 'You are an expert civic issue classifier. Respond only with the priority level.' },
           { role: 'user', content: prompt }

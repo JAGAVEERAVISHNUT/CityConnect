@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -119,10 +119,10 @@ export default function Auth() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-civic/5 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
+          <Link to="/" className="inline-flex items-center justify-center gap-2 mb-4">
             <MapPin className="h-8 w-8 text-primary" />
             <h1 className="text-2xl font-bold text-foreground">CityConnect</h1>
-          </div>
+          </Link>
           <p className="text-muted-foreground">
             Connect with your community and make a difference
           </p>

@@ -14,10 +14,7 @@ const Index = () => {
   const { user, loading } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  // Redirect authenticated users to dashboard
-  if (user && !loading) {
-    return <Navigate to="/dashboard" replace />;
-  }
+  // Remove auto-redirect - let users stay on home page even when authenticated
 
   return (
     <div className="min-h-screen bg-background">

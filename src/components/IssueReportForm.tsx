@@ -75,7 +75,7 @@ export default function IssueReportForm({ onIssueSubmitted }: { readonly onIssue
       const isVideo = file.type.startsWith('video/');
       const bucket = isVideo ? 'issue-videos' : 'issue-photos';
       
-      const { error } = await supabase.storage
+      const { data, error } = await supabase.storage
         .from(bucket)
         .upload(`${user?.id}/${fileName}`, file);
       
@@ -84,7 +84,12 @@ export default function IssueReportForm({ onIssueSubmitted }: { readonly onIssue
         return null;
       }
       
-      return `${user?.id}/${fileName}`;
+      // Return the full public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(`${user?.id}/${fileName}`);
+      
+      return publicUrl;
     });
 
     const uploadedFiles = await Promise.all(uploadPromises);

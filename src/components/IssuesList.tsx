@@ -78,7 +78,7 @@ export default function IssuesList({ showUserIssuesOnly = false }: { showUserIss
         .from('issues')
         .select(`
           *,
-          profiles (
+          profiles!issues_user_id_fkey (
             first_name,
             last_name
           )
@@ -91,8 +91,28 @@ export default function IssuesList({ showUserIssuesOnly = false }: { showUserIss
 
       const { data, error } = await query;
 
-      if (error) throw error;
-      setIssues((data as any) || []);
+      if (error) {
+        console.error('Error fetching issues:', error);
+        // Fallback query without profiles join
+        const fallbackQuery = supabase
+          .from('issues')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (showUserIssuesOnly && user) {
+          fallbackQuery.eq('user_id', user.id);
+        }
+        
+        const { data: fallbackData, error: fallbackError } = await fallbackQuery;
+        if (fallbackError) throw fallbackError;
+        
+        setIssues((fallbackData || []).map(issue => ({
+          ...issue,
+          profiles: null
+        })));
+      } else {
+        setIssues((data as any) || []);
+      }
     } catch (error) {
       console.error('Error fetching issues:', error);
     } finally {

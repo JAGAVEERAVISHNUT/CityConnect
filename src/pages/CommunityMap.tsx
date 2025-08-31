@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Filter, Layers, Eye, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import InteractiveMap from '@/components/InteractiveMap';
 
 interface MapIssue {
   id: string;
@@ -34,11 +35,11 @@ const CommunityMap = () => {
       const { data, error } = await supabase
         .from('issues')
         .select('id, title, category, status, latitude, longitude, address, created_at')
-        .not('latitude', 'is', null)
-        .not('longitude', 'is', null)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      
+      // Show all issues, whether they have location or not, for now
       setIssues((data as MapIssue[]) || []);
     } catch (error) {
       console.error('Error fetching map issues:', error);
@@ -81,45 +82,10 @@ const CommunityMap = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Map Area */}
           <div className="lg:col-span-3">
-            <Card className="h-[600px] shadow-card-civic">
-              <CardContent className="p-0 h-full">
-                <div className="w-full h-full bg-gradient-to-br from-civic-teal/20 to-civic-blue/20 rounded-lg flex items-center justify-center relative overflow-hidden">
-                  {/* Interactive Map Simulation */}
-                  {filteredIssues.slice(0, 10).map((issue, index) => (
-                    <div
-                      key={issue.id}
-                      className={`absolute w-4 h-4 rounded-full animate-pulse cursor-pointer ${
-                        statusColors[issue.status as keyof typeof statusColors] || 'bg-gray-500'
-                      }`}
-                      style={{
-                        top: `${20 + (index * 8)}%`,
-                        left: `${30 + (index * 7)}%`,
-                      }}
-                      title={`${issue.title} - ${issue.status}`}
-                    />
-                  ))}
-                  
-                  <div className="text-center z-10">
-                    <MapPin className="w-16 h-16 text-civic-blue mx-auto mb-4" />
-                    <h3 className="text-2xl font-semibold text-foreground mb-2">
-                      Interactive Community Map
-                    </h3>
-                    <p className="text-muted-foreground mb-6 max-w-md">
-                      Real-time visualization of community issues. Click on pins to see details.
-                    </p>
-                    <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">
-                        Showing {filteredIssues.length} issues
-                      </p>
-                      <Button variant="civic">
-                        <Eye className="w-4 h-4 mr-2" />
-                        Enable Interactive Mode
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <InteractiveMap 
+              issues={filteredIssues.filter(issue => issue.latitude && issue.longitude) as any[]} 
+              height="600px" 
+            />
           </div>
 
           {/* Sidebar */}
